@@ -21,33 +21,33 @@ const SideList = () => {
     <Fragment>
       <ul className="sidebar-menu">
         <li>
-          <NavLink to="/" className="sidebar-links">
+          <a href="/" className="sidebar-links">
             <HomeRoundedIcon className={classes.icon} /> Home
-          </NavLink>
+          </a>
         </li>
         <li>
-          <NavLink to="/products" className="sidebar-links">
+          <a href="/products" className="sidebar-links">
             <ComputerRoundedIcon className={classes.icon} />
             Sản phẩm
-          </NavLink>
+          </a>
         </li>
         <li>
-          <NavLink to="/categories" className="sidebar-links">
+          <a href="/categories" className="sidebar-links">
             <AppsRoundedIcon className={classes.icon} />
             Loại sản phẩm
-          </NavLink>
+          </a>
         </li>
         <li>
-          <NavLink to="/brands" className="sidebar-links">
+          <a href="/brands" className="sidebar-links">
             <BlurOnIcon className={classes.icon} />
             Nhãn hàng
-          </NavLink>
+          </a>
         </li>
         <li>
-          <NavLink to="/chat" className="sidebar-links">
+          <a href="/chat" className="sidebar-links">
             <Chat className={classes.icon} />
             Chat
-          </NavLink>
+          </a>
         </li>
       </ul>
     </Fragment>
