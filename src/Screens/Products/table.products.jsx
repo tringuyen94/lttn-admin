@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react"
 import MUIDataTable from "mui-datatables"
 import { Button } from "@material-ui/core"
-import { domain } from "../../services/baseURL.services"
+import {  subDomain } from "../../services/baseURL.services"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 import { fetchProducts } from "../../redux/async-actions/product.action"
@@ -37,7 +37,7 @@ const ProductTable = ({ dispatch, history, products }) => {
         customBodyRender: (name) => {
           return (
             <>
-              <img src={domain + "/" + name} alt="#product" width="130px" />
+              <img src={subDomain + "/" + name} alt="#product" width="130px" />
             </>
           )
         },

@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core"
 import { withRouter } from "react-router-dom"
 import ImageServices from "../../services/image.services"
-import { domain } from "../../services/baseURL.services"
+import { subDomain } from "../../services/baseURL.services"
 import { fetchCategories } from "../../redux/async-actions/category.action"
 import { fetchBrands } from "../../redux/async-actions/brand.action"
 import ReactQuill from "react-quill"
@@ -80,7 +80,7 @@ const DetailProduct = ({
           <form>
             <div>
               <img
-                src={domain + "/" + productById.image.path}
+                src={subDomain + "/" + productById.image.path}
                 alt="#product"
                 width="100px"
               />
