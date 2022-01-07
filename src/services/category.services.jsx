@@ -8,20 +8,14 @@ class CategoryServices {
   }
   addCategory(value) {
     return restConnector({
-      url: `api/categories`,
+      url: `api/categories/create-category`,
       method: "post",
-      data: value,
-    })
-  }
-  deleteCategoryById(categoryId) {
-    return restConnector({
-      url: `api/categories/${categoryId}`,
-      method: "DELETE",
+      data: { 'nameCategory': value },
     })
   }
   updateCategoryById(value, categoryId) {
     return restConnector({
-      url: `api/categories/${categoryId}`,
+      url: `api/categories/update-category-by-id/${categoryId}`,
       method: "PUT",
       data: value,
     })

@@ -1,22 +1,35 @@
 import React, { Fragment, useEffect, useState } from "react"
 import MUIDataTable from "mui-datatables"
-import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
+import { useSelector } from "react-redux"
 import { fetchCategories } from "../../redux/async-actions/category.action"
-import { Button, TextField } from "@material-ui/core"
+import { Button, IconButton, TextField } from "@material-ui/core"
 import { updateCategoryById } from "../../redux/async-actions/category.action"
+import { useDispatch } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { Save, Edit } from "@material-ui/icons"
 
-const CategoryTable = ({ categories, history, dispatch }) => {
-  useEffect(() => {
-    dispatch(fetchCategories())
-  }, [])
+const CategoryTable = () => {
+  const dispatch = useDispatch()
+  const categories = useSelector(state => state.category.categories)
+ 
   const [isUpdate, setIsUpdate] = useState(false)
   const [nameCategory, setNameCategory] = useState()
+  const history= useHistory()
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [dispatch])
+
+
+
+
   const handleChange = (e) => {
     setNameCategory({
       nameCategory: e.target.value,
     })
   }
+
+
   const columns = [
     {
       name: "_id",
@@ -57,31 +70,28 @@ const CategoryTable = ({ categories, history, dispatch }) => {
         empty: true,
         customBodyRender: (value, tableMeta, updateValue) => {
           return isUpdate ? (
-            <>
-              <Button
-                variant="contained"
-                color="default"
-                onClick={() => {
-                  updateCategoryById(
-                    nameCategory,
-                    tableMeta.rowData[0],
-                    history
-                  )
-                }}
-              >
-                Lưu
-              </Button>
-            </>
+            <IconButton
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                dispatch(updateCategoryById(
+                  nameCategory,
+                  tableMeta.rowData[0],
+                  history
+                ))
+              }}
+            >
+              <Save />
+            </IconButton>
           ) : (
-            <>
-              <Button
-                variant="contained"
-                color={handleChange ? "primary" : "secondary"}
-                onClick={() => setIsUpdate(true)}
-              >
-                Cập nhật
-              </Button>
-            </>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Edit />}
+              onClick={() => setIsUpdate(true)}
+            >
+              Cập nhật
+            </Button>
           )
         },
       },
@@ -89,6 +99,8 @@ const CategoryTable = ({ categories, history, dispatch }) => {
   ]
   const options = {
     filterType: "dropdown",
+    selectableRows: "none",
+
   }
   return (
     <Fragment>
@@ -101,10 +113,6 @@ const CategoryTable = ({ categories, history, dispatch }) => {
     </Fragment>
   )
 }
-const mapStateToProps = (state) => {
-  return {
-    categories: state.category.categories,
-  }
-}
 
-export default withRouter(connect(mapStateToProps)(CategoryTable))
+
+export default CategoryTable

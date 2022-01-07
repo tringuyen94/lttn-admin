@@ -1,20 +1,18 @@
 import { LOGIN, LOGOUT } from "../async-actions/actionType"
+import jwt from 'jsonwebtoken'
 
 let initialState = {
-  isAuthenticated: false,
-  credential: null
+  profile: {}
 }
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
-      state.isAuthenticated = true
-      state.credential = action.payload
+      state.profile = jwt.verify(action.payload, 'LTTNElectric')
+      localStorage.setItem('profile', JSON.stringify(state.profile))
       return { ...state }
     case LOGOUT:
-      state.isAuthenticated = false
-      state.credential = null
-      return { ...state }
-
+      localStorage.clear()
+      return state
     default:
       return state
   }

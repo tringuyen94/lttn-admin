@@ -2,28 +2,22 @@ import { restConnector } from "./baseURL.services"
 class BrandServices {
   fetchBrands() {
     return restConnector({
-      url: `api/brands`,
+      url: `api/brands/get-brands`,
       method: "get",
     })
   }
   addBrand(value) {
     return restConnector({
-      url: `api/brands`,
+      url: `api/brands/create-brand`,
       method: "post",
-      data: value,
+      data: { 'nameBrand': value },
     })
   }
   updateBrandById(value, brandId) {
     return restConnector({
-      url: `api/brands/${brandId}`,
+      url: `api/brands/update-brand-by-id/${brandId}`,
       method: "PUT",
       data: value,
-    })
-  }
-  deleteBrandById(brandId) {
-    return restConnector({
-      url: `api/brands/${brandId}`,
-      method: "DELETE",
     })
   }
 }

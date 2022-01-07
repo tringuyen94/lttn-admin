@@ -1,11 +1,13 @@
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 import { login } from "../../redux/async-actions/user.action"
-import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 import { TextField, Button } from "@material-ui/core"
-
-const Authentication = ({ dispatch, history }) => {
+import { useHistory } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import './authentication.css'
+const Authentication = () => {
   const [credentials, setCredentials] = useState()
+  const history = useHistory()
+  const dispatch = useDispatch()
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
@@ -17,38 +19,40 @@ const Authentication = ({ dispatch, history }) => {
     dispatch(login(credentials, history))
   }
   return (
-    <Fragment>
-      <div className="authentication">
-        <div className="container">
-          <form onSubmit={handleLogin} className="loginform" autoComplete="off">
-            <TextField
-              className="input"
-              variant="outlined"
-              name="email"
-              autoFocus={true}
-              label="Email"
-              onChange={handleChange}
-              required
-            />
-            <br />
-            <TextField
-              type="password"
-              className="input"
-              variant="outlined"
-              name="password"
-              label="Password"
-              onChange={handleChange}
-              required
-            />
-            <br />
-            <Button variant="contained" color="primary" type="submit">
-              Login
-            </Button>
-          </form>
-        </div>
-      </div>
-    </Fragment>
+    <div className="authentication">
+      <form onSubmit={handleLogin}
+        className="loginform"
+        autoComplete="off">
+        <TextField
+          className="input"
+          variant="outlined"
+          name="email"
+          autoFocus={true}
+          label="Email"
+          fullWidth
+          onChange={handleChange}
+          required
+        />
+        <br />
+        <TextField
+          type="password"
+          className="input"
+          variant="outlined"
+          name="password"
+          label="Password"
+          fullWidth
+          onChange={handleChange}
+          required
+        />
+        <br />
+        <Button variant="contained"
+          fullWidth
+          color="primary" type="submit">
+          Login
+        </Button>
+      </form>
+    </div>
   )
 }
 
-export default withRouter(connect()(Authentication))
+export default Authentication

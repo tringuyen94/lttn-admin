@@ -1,77 +1,53 @@
-import React, { Fragment } from "react"
+import React from "react"
+import {
+  Grid, Card,
+  CardActionArea,
+  Typography, CardContent
+} from '@material-ui/core'
+import './main.css'
+import { useHistory } from "react-router"
 
 const Main = () => {
+  const history = useHistory()
   return (
-    <Fragment>
-      <div className="main">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-3">
-              <a href="/products">
-                <div className="card">
-                  <img
-                    className="card-img-top"
-                    src={require("../../img/product.jpg")}
-                    alt="#product"
-                    height="250px"
-                  />
-                  <div className="card-body">
-                    <h4 className="card-title">Sản phẩm</h4>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div className="col-md-3">
-              <a href="/categories">
-                <div className="card">
-                  <img
-                    className="card-img-top"
-                    src={require("../../img/category.png")}
-                    alt="#product"
-                    height="250px"
-                  />
-                  <div className="card-body">
-                    <h4 className="card-title">Loại sản phẩm</h4>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div className="col-md-3">
-              <a href="/brands">
-                <div className="card">
-                  <img
-                    className="card-img-top"
-                    src={require("../../img/brand.jpg")}
-                    alt="#product"
-                    height="250px"
-                  />
-
-                  <div className="card-body">
-                    <h4 className="card-title">Nhãn hàng</h4>
-                  </div>
-                </div>
-              </a>
-            </div>
-            {/* <div className="col-md-3">
-              <a href="/chat">
-                <div className="card">
-                  <img
-                    className="card-img-top"
-                    src={require("../../img/chat.jpg")}
-                    alt="#product"
-                    height="250px"
-                  />
-
-                  <div className="card-body">
-                    <h4 className="card-title">Chat</h4>
-                  </div>
-                </div>
-              </a>
-            </div> */}
-          </div>
-        </div>
-      </div>
-    </Fragment>
+    <Grid container justify='space-between' className="main">
+      <Grid item md={4}>
+        <Card className='main__card'>
+          <CardActionArea onClick={() =>history.push('/products')}>
+            <img alt="product" src={require('../../img/product.jpg')} />
+            <CardContent className='card__content'>
+              <Typography gutterBottom variant="h5" align='center' component="h2">
+                Sản phẩm
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
+      <Grid item md={4}>
+        <Card className='main__card'>
+          <CardActionArea onClick={() =>history.push('/categories')} >
+            <img alt="category" src={require('../../img/category.png')} />
+            <CardContent className='card__content'>
+              <Typography gutterBottom variant="h5" align='center' component="h2">
+                Loại sản phẩm
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
+      <Grid item md={4}>
+        <Card className='main__card'>
+          <CardActionArea onClick={() =>history.push('/brands')}>
+            <img alt="brand" src={require('../../img/brand.jpg')} />
+            <CardContent className='card__content'>
+              <Typography gutterBottom variant="h5" align='center' component="h2">
+                Nhãn hàng
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
 

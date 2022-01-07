@@ -1,7 +1,6 @@
 import {
   FETCH_CATEGORIES,
   ADD_CATEGORY,
-  DELETE_CATEGORY_BY_ID,
 } from "./actionType"
 import CategoryServices from "../../services/category.services"
 import { toast } from "react-toastify"
@@ -19,38 +18,24 @@ export const addCategory = (value) => {
   return (dispatch) => {
     CategoryServices.addCategory(value)
       .then((res) => {
-        dispatch(actAddCategory(res.data))
+        dispatch({ type: ADD_CATEGORY, payload: { nameCategory: value } })
+        toast.success(res.data.message)
       })
-      .catch((err) => console.log)
+      .catch((err) => toast.error(err.response.data.message))
   }
 }
-export const deleteCategoryById = (categoryId) => {
-  return (dispatch) => {
-    CategoryServices.deleteCategoryById(categoryId)
-      .then((res) => dispatch(actDeleteCategoryById(categoryId)))
-      .catch((err) => console.log)
+
+export const updateCategoryById = (value, categoryId,history) => {
+  return dispatch => {
+    CategoryServices.updateCategoryById(value, categoryId)
+      .then((res) => {
+        history.go(0)
+        toast.success(res.data.message)
+      })
+      // .catch((err) => toast.error(err.response.data.message))
   }
 }
-export const updateCategoryById = (value, categoryId, history) => {
-  CategoryServices.updateCategoryById(value, categoryId)
-    .then((res) => {
-      history.go(0)
-      toast.success("Cập nhật thành công")
-    })
-    .catch((err) => console.log)
-}
-export const actDeleteCategoryById = (categoryId) => {
-  return {
-    type: DELETE_CATEGORY_BY_ID,
-    payload: categoryId,
-  }
-}
-export const actAddCategory = (data) => {
-  return {
-    type: ADD_CATEGORY,
-    payload: data,
-  }
-}
+
 export const actFetchCategories = (data) => {
   return {
     type: FETCH_CATEGORIES,

@@ -1,15 +1,26 @@
-import React, { Fragment, useEffect } from "react"
+import React, { useEffect } from "react"
 import MUIDataTable from "mui-datatables"
 import { Button } from "@material-ui/core"
-import {  subDomain } from "../../services/baseURL.services"
-import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 import { fetchProducts } from "../../redux/async-actions/product.action"
 import { deleteProductById } from "../../redux/async-actions/product.action"
-const ProductTable = ({ dispatch, history, products }) => {
+import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
+
+
+const options = {
+  selectableRows: "none",
+  filterType: "dropdown",
+}
+
+const Products = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const products = useSelector(state => state.product.products)
   useEffect(() => {
     dispatch(fetchProducts())
-  }, [])
+  }, [dispatch])
+
+
   const columns = [
     {
       name: "_id",
@@ -29,16 +40,18 @@ const ProductTable = ({ dispatch, history, products }) => {
       },
     },
     {
-      name: "image.path",
+      name: "productImages",
       label: "Hình ảnh",
       options: {
         filter: false,
         sort: false,
         customBodyRender: (name) => {
-          return (
-            <>
-              <img src={subDomain + "/" + name} alt="#product" width="130px" />
-            </>
+          return ( 
+              <img
+               src={name[0]}
+                alt="product"
+                width="130px" 
+                />
           )
         },
       },
@@ -53,7 +66,7 @@ const ProductTable = ({ dispatch, history, products }) => {
       },
     },
     {
-      name: "isNewOne",
+      name: "isNewProduct",
       label: "Tình trạng",
       options: {
         customBodyRender: (name) => {
@@ -96,9 +109,7 @@ const ProductTable = ({ dispatch, history, products }) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => {
-                  history.push(`/products/${tableMeta.rowData[0]}`)
-                }}
+                onClick={() => history.push(`/products/update-product/${tableMeta.rowData[0]}`)}
               >
                 Cập nhật
               </Button>
@@ -119,26 +130,15 @@ const ProductTable = ({ dispatch, history, products }) => {
     },
   ]
 
-  const options = {
-    selectableRows: "none",
-    filterType: "dropdown",
-  }
-
   return (
-    <Fragment>
-      <MUIDataTable
-        className="mb-5"
-        title={"Danh sách sản phẩm"}
-        data={products ? products : undefined}
-        columns={columns}
-        options={options}
-      />
-    </Fragment>
+    <MUIDataTable
+      className="mb-5"
+      title={"Danh sách sản phẩm"}
+      data={products ? products : undefined}
+      columns={columns}
+      options={options}
+    />
   )
 }
-const mapStatToProps = (state) => {
-  return {
-    products: state.product.products,
-  }
-}
-export default withRouter(connect(mapStatToProps)(ProductTable))
+
+export default Products

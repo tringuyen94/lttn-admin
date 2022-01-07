@@ -1,29 +1,24 @@
 import { LOGIN, LOGOUT } from "./actionType"
 import UserService from "../../services/user.services"
-import jwt from "jsonwebtoken"
 import { toast } from "react-toastify"
 
 export const login = (credentials, history) => {
   return (dispatch) => {
     UserService.login(credentials)
       .then((res) => {
-        let decodedJwt = jwt.decode(res.data.jwt)
-        dispatch(actLogin(decodedJwt))
-        localStorage.setItem("login", JSON.stringify(decodedJwt))
-        history.push("/admin")
-        toast.info("Đăng nhập thành công")
+        dispatch({ type: LOGIN, payload: res.data.jwt })
+        history.push('/admin')
+        toast.success(res.data.message)
       })
-      .catch((err) => toast.error("Thất bại"))
+      .catch((err) => toast.error(err.response.data.message))
   }
 }
-export const actLogin = (data) => {
-  return {
-    type: LOGIN,
-    payload: data,
-  }
-}
-export const actLogout = () => {
-  return {
-    type: LOGOUT,
+
+export const logOut = (history) => {
+  console.log('log out here')
+  return (dispatch) => {
+    dispatch({ type: LOGOUT })
+    history.push('/login')
+    toast.info('Đã đăng xuất khỏi hệ thống')
   }
 }

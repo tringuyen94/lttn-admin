@@ -1,0 +1,23 @@
+/*
+====================================================
+  PRODUCT 
+====================================================
+*/
+
+.upload__image-wrapper {
+   display: flex;
+   flex-direction: column;
+   margin: 10px 20px;
+}
+.image-item{
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+}
+.image-item img {
+   width: 240px;
+}
+.upload__image-wrapper div button{
+   margin-left: 2rem;
+}

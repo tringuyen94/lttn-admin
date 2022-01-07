@@ -17,9 +17,7 @@ const productReducer = (state = initialState, action) => {
       state.productById = action.payload
       return { ...state }
     case DELETE_PRODUCT_BY_ID:
-      let deletedArr = state.products.filter(
-        (product) => product._id !== action.payload
-      )
+      let deletedArr = state.products.filter((product) => product._id !== action.payload)
       return { ...state, products: deletedArr }
     default:
       return state

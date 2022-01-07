@@ -1,56 +1,73 @@
-import React, { Fragment } from "react"
-import { NavLink } from "react-router-dom"
-import { makeStyles } from "@material-ui/core"
-import HomeRoundedIcon from "@material-ui/icons/HomeRounded"
-import ComputerRoundedIcon from "@material-ui/icons/ComputerRounded"
-import AppsRoundedIcon from "@material-ui/icons/AppsRounded"
-import BlurOnIcon from "@material-ui/icons/BlurOn"
-import Chat from "@material-ui/icons/Chat"
-const useStyles = makeStyles({
-  icon: {
-    position: "relative",
-    top: "4px",
-    fontSize: "25px",
-    marginRight: "10px",
-    transition: "ease .5s",
-  },
-})
+import React, { useEffect, useState } from "react"
+import {
+  List,
+} from "@material-ui/core"
+import { HomeRounded, ComputerRounded, AppsRounded, BlurOn, Add,PostAdd } from "@material-ui/icons"
+import './sidelist.css'
+import { useHistory, useLocation } from "react-router"
+import SideListItem from "./sidelistitem";
+
+
+const data = [
+  { route: "/admin", tabIndex: 0, icon: <HomeRounded />, label: "Home" },
+  { route: "/products", tabIndex: 1, icon: <ComputerRounded />, label: "Sản phẩm" },
+  { route: "/products/add-product", tabIndex: 2, icon: <Add />, label: "Thêm sản phẩm" },
+  { route: "/projects", tabIndex: 3, icon: <AppsRounded />, label: "Dự án" },
+  { route: "/projects/add-project", tabIndex: 4, icon: <PostAdd />, label: "Thêm dự án" },
+  { route: "/categories", tabIndex: 5, icon: <AppsRounded />, label: "Loại sản phẩm" },
+  { route: "/brands", tabIndex: 6, icon: <BlurOn />, label: "Nhãn hàng" },
+
+]
 const SideList = () => {
-  const classes = useStyles()
+
+  const history = useHistory()
+  const [tabSelected, setTabSelected] = useState(0)
+  const location = useLocation()
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/':
+        setTabSelected(0)
+        break;
+      case '/admin':
+        setTabSelected(0)
+        break;
+      case '/products':
+        setTabSelected(1)
+        break;
+      case '/products/add-product':
+        setTabSelected(2)
+        break;
+      case '/projects':
+        setTabSelected(3)
+        break;
+      case '/projects/add-project':
+        setTabSelected(4)
+        break;
+      case '/categories':
+        setTabSelected(5)
+        break;
+      case '/brands':
+        setTabSelected(6)
+        break;
+      default:
+        break;
+    }
+  }, [location.pathname])
+
+  
   return (
-    <Fragment>
-      <ul className="sidebar-menu">
-        <li>
-          <a href="/" className="sidebar-links">
-            <HomeRoundedIcon className={classes.icon} /> Home
-          </a>
-        </li>
-        <li>
-          <a href="/products" className="sidebar-links">
-            <ComputerRoundedIcon className={classes.icon} />
-            Sản phẩm
-          </a>
-        </li>
-        <li>
-          <a href="/categories" className="sidebar-links">
-            <AppsRoundedIcon className={classes.icon} />
-            Loại sản phẩm
-          </a>
-        </li>
-        <li>
-          <a href="/brands" className="sidebar-links">
-            <BlurOnIcon className={classes.icon} />
-            Nhãn hàng
-          </a>
-        </li>
-        <li>
-          <a href="/chat" className="sidebar-links">
-            <Chat className={classes.icon} />
-            Chat
-          </a>
-        </li>
-      </ul>
-    </Fragment>
+    <List component="nav" className="sidelist">
+      {data.map((item, index) => <SideListItem
+        key={index}
+        history={history}
+        route={item.route}
+        tabSelected={tabSelected}
+        setTabSelected={setTabSelected}
+        tabIndex={item.tabIndex}
+        icon={item.icon}
+        label={item.label}
+      />)}
+    </List>
   )
 }
 

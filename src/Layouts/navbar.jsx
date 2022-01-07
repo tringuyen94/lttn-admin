@@ -1,46 +1,29 @@
-import React, { Fragment } from "react"
-import Sidebar from "./sidebar"
+import React from "react"
 import { Button } from "@material-ui/core"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
-import { withRouter } from "react-router-dom"
-import { connect } from "react-redux"
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount"
-import { actLogout } from "../redux/async-actions/user.action"
-const Navbar = ({ user, history, dispatch }) => {
-  const { fullName } = user.credential
+import { useHistory } from "react-router-dom"
+import { logOut } from "../redux/async-actions/user.action"
+import { useDispatch } from "react-redux"
+import './navbar.css'
+
+const Navbar = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+
   return (
-    <Fragment>
-      <nav className="navbar navbar-expand-lg " color-on-scroll={500}>
-        <div className="container-fluid">
-          <div
-            className="collapse navbar-collapse justify-content-center"
-            id="navigation"
-          >
-            <Sidebar />
-            <ul className="navbar-nav ml-auto">
-              <li>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => {
-                    localStorage.clear()
-                    history.push("/login")
-                    dispatch(actLogout())
-                  }}
-                >
-                  Đăng xuất <ExitToAppIcon />
-                </Button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </Fragment>
+    <div className="navbar">
+      <h1 onClick={() => history.push('/admin')}>admin</h1>
+      <Button
+        onClick={() => dispatch(logOut(history))}
+        variant="outlined"
+        endIcon={<ExitToAppIcon />}
+      >
+        Đăng xuất
+      </Button>
+    </div>
+
   )
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  }
-}
-export default withRouter(connect(mapStateToProps)(Navbar))
+
+export default Navbar

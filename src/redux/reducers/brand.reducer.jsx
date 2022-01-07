@@ -1,7 +1,6 @@
 import {
   FETCH_BRANDS,
   ADD_BRAND,
-  UPDATE_BRAND_BY_ID,
 } from "../async-actions/actionType"
 
 let initialState = {
@@ -10,16 +9,10 @@ let initialState = {
 const brandReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_BRANDS:
-      state.brands = action.payload
-      return { ...state }
+      return { ...state, brands: action.payload }
     case ADD_BRAND:
-      let tempArr = []
-      tempArr.push(action.payload)
-      let resultArr = state.brands.concat(tempArr)
-      return { ...state, brands: resultArr }
-    case UPDATE_BRAND_BY_ID:
-      console.log(action.payload)
-
+      let temp = [...state.brands, action.payload]
+      return { ...state, brands: temp }
     default:
       return state
   }

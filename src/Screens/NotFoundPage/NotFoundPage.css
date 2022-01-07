@@ -1,0 +1,24 @@
+.notfoundpage {
+   display: flex;
+   height: 80%;
+   justify-content: center;
+   align-items: center;
+}
+.notfoundpage__container {
+   text-align: center;
+   padding: 30px 45px;
+   border-radius: 5px;
+   color: #eee;
+   background: -webkit-linear-gradient(to left, #4286f4, #373b44); /* Chrome 10-25, Safari 5.1-6 */
+   background: linear-gradient(
+      to left,
+      #4286f4,
+      #373b44
+   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.notfoundpage__container h1{
+   margin: 1rem 0;
+}
+.notfoundpage__container a{
+   font-size: 1.2rem;
+}

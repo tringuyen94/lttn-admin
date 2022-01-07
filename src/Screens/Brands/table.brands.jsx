@@ -1,17 +1,20 @@
 import React, { Fragment, useEffect, useState } from "react"
 import MUIDataTable from "mui-datatables"
-import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 import {
-  deleteBrandById,
   fetchBrands,
   updateBrandById,
 } from "../../redux/async-actions/brand.action"
-import { Button, TextField } from "@material-ui/core"
+import { Button, IconButton, TextField } from "@material-ui/core"
+import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { Edit, Save } from "@material-ui/icons"
 
-const BrandTable = ({ history, dispatch, brands }) => {
-  const [isEdit, setIsEdit] = useState(false)
+const BrandTable = () => {
+  const dispatch = useDispatch()
+  const brands = useSelector(state => state.brand.brands)
+  const history = useHistory()
   const [nameBrand, setNameBrand] = useState()
+  const [isEdit, setIsEdit] = useState(false)
   const handleChange = (e) => {
     setNameBrand({
       nameBrand: e.target.value,
@@ -19,7 +22,7 @@ const BrandTable = ({ history, dispatch, brands }) => {
   }
   useEffect(() => {
     dispatch(fetchBrands())
-  }, [])
+  }, [dispatch])
   const columns = [
     {
       name: "_id",
@@ -45,9 +48,7 @@ const BrandTable = ({ history, dispatch, brands }) => {
         display: isEdit,
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <div>
-              <TextField label="Nhập thay đổi" onChange={handleChange} />
-            </div>
+            <TextField label="Nhập thay đổi" onChange={handleChange} />
           )
         },
       },
@@ -60,22 +61,21 @@ const BrandTable = ({ history, dispatch, brands }) => {
         empty: true,
         customBodyRender: (value, tableMeta, updateValue) => {
           return isEdit ? (
-            <>
-              <Button
-                variant="contained"
-                color="default"
-                onClick={() => {
-                  updateBrandById(nameBrand, tableMeta.rowData[0], history)
-                }}
-              >
-                Lưu
-              </Button>
-            </>
+            <IconButton
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                updateBrandById(nameBrand, tableMeta.rowData[0], history)
+              }}
+            >
+              <Save />
+            </IconButton>
           ) : (
             <>
               <Button
                 variant="contained"
-                color={handleChange ? "primary" : "secondary"}
+                color="primary"
+                startIcon={<Edit />}
                 onClick={() => setIsEdit(true)}
               >
                 Cập nhật
@@ -88,6 +88,7 @@ const BrandTable = ({ history, dispatch, brands }) => {
   ]
   const options = {
     filterType: "dropdown",
+    selectableRows:"none"
   }
   return (
     <Fragment>
@@ -100,10 +101,6 @@ const BrandTable = ({ history, dispatch, brands }) => {
     </Fragment>
   )
 }
-const mapStateToProps = (state) => {
-  return {
-    brands: state.brand.brands,
-  }
-}
 
-export default withRouter(connect(mapStateToProps)(BrandTable))
+
+export default BrandTable
