@@ -1,4 +1,4 @@
-import { Grid, InputAdornment, FormControl, InputLabel, OutlinedInput, Container } from '@material-ui/core'
+import { Grid, InputAdornment, FormControl, InputLabel, OutlinedInput } from '@material-ui/core'
 import { Search } from '@material-ui/icons'
 import React, { Fragment, useState } from 'react'
 import { useRef } from 'react'
@@ -22,7 +22,7 @@ const Project = () => {
          clearTimeout(typingTimeOutRef.current)
       }
       typingTimeOutRef.current = setTimeout(() => {
-         if (value === '') return dispatch(fetchProjects())
+         if(value === '') return dispatch(fetchProjects())
          dispatch(filterProject(value))
       }, 500)
    }

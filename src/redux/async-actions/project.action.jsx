@@ -49,3 +49,12 @@ export const updateProjectById=(projectId,updateValue,history)=>{
       })
       .catch(err=>toast.error(err.response.data.message))  
 }
+
+export const updateProjectThumb = (projectId,newThumb,history)=>{
+   ProjectServices.updateProjectThumb(projectId,newThumb)
+      .then(res=>{
+         history.push('/projects')
+         toast.success('Cập nhật thành công')
+      })
+      .catch(err => toast(err.response.data.message))
+   }

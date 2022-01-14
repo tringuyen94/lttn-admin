@@ -6,26 +6,27 @@ import {
 } from '@material-ui/core'
 import { Delete, Edit } from '@material-ui/icons'
 import { useHistory, useLocation } from 'react-router-dom'
+import { domain } from '../../services/baseURL.services'
 
 const ProjectItem = ({ project, handleDeleteProject }) => {
-   const history =useHistory()
-   const {pathname} =useLocation()
+   const history = useHistory()
+   const { pathname } = useLocation()
    return (
       <Grid item md={3} sm={6} xs={12} className='project__item'>
          <Card>
             <CardMedia
                component="img"
                height="140"
-               image={project.projectThumb}
+               image={domain + "/" + project.projectThumb}
                alt="project"
             />
             <CardContent>
                <Typography gutterBottom variant="h5" component="div">
-                  {project.title.slice(0,40) + "..."}
+                  {project.title.slice(0, 40) + "..."}
                </Typography>
             </CardContent>
             <CardActions >
-               <IconButton color="primary" onClick={()=>history.push(`${pathname}/update-project/${project._id}`)}>
+               <IconButton color="primary" onClick={() => history.push(`${pathname}/update-project/${project._id}`)}>
                   <Edit />
                </IconButton>
                <IconButton color="secondary" onClick={() => handleDeleteProject(project._id)}>

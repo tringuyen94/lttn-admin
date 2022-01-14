@@ -12,7 +12,7 @@ const projectReducer = (state = initialState, action) => {
       case FETCH_PROJECT_BY_ID:
          return { ...state, projectById: action.payload }
       case FILTER_PROJECTS:
-         let resultFilter = state.projects.filter(project => project.title.includes(action.payload))
+         let resultFilter = state.projects.filter(project => project.slug.toLowerCase().includes(action.payload.toLowerCase()))
          return { ...state, projects: resultFilter }
       case DELETE_PROJECT_BY_ID:
          let resultArr = state.projects.filter(project => project._id !== action.payload)

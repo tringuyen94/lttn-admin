@@ -13,7 +13,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <h1 onClick={() => history.push('/admin')}>admin</h1>
+      <h1 className='admin-navivation' onClick={() => history.push('/admin')}>admin</h1>
       <Button
         onClick={() => dispatch(logOut(history))}
         variant="outlined"

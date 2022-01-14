@@ -3,43 +3,43 @@ import { restConnector } from "./baseURL.services"
 
 
 class ProjectServices {
-   createProject(projectData){
+   createProject(projectData) {
       return restConnector({
-         url:'api/projects/create-project',
-         method:'POST',
-         data:projectData
+         url: 'api/projects/create-project',
+         method: 'POST',
+         data: projectData
       })
    }
-   fetchProjects(){
+   fetchProjects() {
       return restConnector({
-         url:'api/projects/get-projects',
-         method:"GET"
+         url: 'api/projects/get-projects',
+         method: "GET"
       })
    }
-   fetchProjectById (projectId){
+   fetchProjectById(projectId) {
       return restConnector({
-         url:`api/projects/get-project-by-id/${projectId}`,
-         method:"GET"
+         url: `api/projects/get-project-by-id/${projectId}`,
+         method: "GET"
       })
    }
-   deleteProjectById(projectId){
+   deleteProjectById(projectId) {
       return restConnector({
-         url:`api/projects/delete-project-by-id/${projectId}`,
-         method:"DELETE"
+         url: `api/projects/delete-project-by-id/${projectId}`,
+         method: "DELETE"
       })
    }
-   updateProjectById(projectId,updateValue){
+   updateProjectById(projectId, updateValue) {
       return restConnector({
-         url:`api/projects/update-project-by-id/${projectId}`,
-         data:updateValue,
-         method:"PUT"
+         url: `api/projects/update-project-by-id/${projectId}`,
+         data: updateValue,
+         method: "PUT"
       })
    }
-   updateProjectThumb(projectId,newThumb){
+   updateProjectThumb(projectId, newThumb) {
       return restConnector({
-         url:`api/projects/update-project-thumb/${projectId}`,
-         data:newThumb,
-         method:"PUT"
+         url: `api/projects/update-project-thumb/${projectId}`,
+         data: newThumb,
+         method: "PUT"
       })
    }
 }

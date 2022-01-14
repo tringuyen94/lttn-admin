@@ -9,13 +9,12 @@
    border-bottom: 2px solid #eee;
 }
 .navbar h1 {
-   margin-right: 12em;
-   text-decoration: underline;
    cursor: pointer;
    text-transform: uppercase;
    background: -webkit-linear-gradient(to right, #0575e6, #021b79); /* Chrome 10-25, Safari 5.1-6 */
    background: linear-gradient(to right, #0575e6, #021b79);
-   -webkit-background-clip: text;
+   background-clip: text;
+   margin-right: 20em;
    -webkit-text-fill-color: transparent;
 }
 .navbar button {

@@ -5,17 +5,20 @@ import { fetchProducts } from "../../redux/async-actions/product.action"
 import { deleteProductById } from "../../redux/async-actions/product.action"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+import { domain } from "../../services/baseURL.services"
 
-
-const options = {
-  selectableRows: "none",
-  filterType: "dropdown",
-}
 
 const Products = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const products = useSelector(state => state.product.products)
+  const options = {
+    selectableRows: "none",
+    filterType: "dropdown",
+    rowsPerPage: 5
+  }
+
+
   useEffect(() => {
     dispatch(fetchProducts())
   }, [dispatch])
@@ -46,12 +49,13 @@ const Products = () => {
         filter: false,
         sort: false,
         customBodyRender: (name) => {
-          return ( 
-              <img
-               src={name[0]}
-                alt="product"
-                width="130px" 
-                />
+          return (
+            <img
+              src={domain + '/' + name[0]}
+              alt="product"
+              width="100px"
+              height="100px"
+            />
           )
         },
       },
@@ -132,7 +136,7 @@ const Products = () => {
 
   return (
     <MUIDataTable
-      className="mb-5"
+      className="table__products"
       title={"Danh sách sản phẩm"}
       data={products ? products : undefined}
       columns={columns}
