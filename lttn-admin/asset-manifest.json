@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.b469df37.chunk.css",
+    "main.js": "/static/js/main.7f46af72.chunk.js",
+    "main.js.map": "/static/js/main.7f46af72.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.afb6abcb.js",
+    "runtime-main.js.map": "/static/js/runtime-main.afb6abcb.js.map",
+    "static/css/2.5dbdccff.chunk.css": "/static/css/2.5dbdccff.chunk.css",
+    "static/js/2.c2e3da86.chunk.js": "/static/js/2.c2e3da86.chunk.js",
+    "static/js/2.c2e3da86.chunk.js.map": "/static/js/2.c2e3da86.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.6548970e953edf56d49a0b9a4238fd3f.js": "/precache-manifest.6548970e953edf56d49a0b9a4238fd3f.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.5dbdccff.chunk.css.map": "/static/css/2.5dbdccff.chunk.css.map",
+    "static/css/main.b469df37.chunk.css.map": "/static/css/main.b469df37.chunk.css.map",
+    "static/js/2.c2e3da86.chunk.js.LICENSE.txt": "/static/js/2.c2e3da86.chunk.js.LICENSE.txt",
+    "static/media/brand.jpg": "/static/media/brand.f96e992c.jpg",
+    "static/media/category.png": "/static/media/category.5b7f3c2a.png",
+    "static/media/logoLTTN.jpg": "/static/media/logoLTTN.66c68fd8.jpg",
+    "static/media/index.css": "/static/media/main-background.f46aa65e.jpg",
+    "static/media/product.jpg": "/static/media/product.8b7b84e0.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.afb6abcb.js",
+    "static/css/2.5dbdccff.chunk.css",
+    "static/js/2.c2e3da86.chunk.js",
+    "static/css/main.b469df37.chunk.css",
+    "static/js/main.7f46af72.chunk.js"
+  ]
+}
