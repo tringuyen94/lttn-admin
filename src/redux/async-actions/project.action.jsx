@@ -1,14 +1,23 @@
 import { toast } from 'react-toastify'
 import ProjectServices from '../../services/project.services'
-import { DELETE_PROJECT_BY_ID, FETCH_PROJECTS, FETCH_PROJECT_BY_ID, FILTER_PROJECTS } from './actionType'
+import { ADD_PROJECT, DELETE_PROJECT_BY_ID, FETCH_PROJECTS, FETCH_PROJECT_BY_ID, FILTER_PROJECTS, LOADING_PROJECTS, UPDATE_PROJECT } from './actionType'
+
+
+
+
 
 export const createProject = (projectData, history) => {
-   ProjectServices.createProject(projectData)
-      .then(res => {
-         history.push('/projects')
-         toast.success('Đã tạo thành công')
-      })
-      .catch(err => toast(err.response.data))
+   return dispatch => {
+      dispatch({ type: LOADING_PROJECTS })
+      ProjectServices.createProject(projectData)
+         .then(res => {
+            dispatch({ type: ADD_PROJECT })
+            toast.success(res.data.message)
+            history.push('/projects')
+         })
+         .catch(err => toast.error(err.response.data))
+   }
+
 }
 
 export const fetchProjects = () => {
@@ -36,25 +45,21 @@ export const deleteProjectById = (projectId) => {
             dispatch({ type: DELETE_PROJECT_BY_ID, payload: projectId })
             toast.success(res.data.message)
          })
-         .catch(err => console.log(err.response.data.message))
+         .catch(err => toast.error(err.response.data.message))
    }
 }
 
 
-export const updateProjectById=(projectId,updateValue,history)=>{
-   ProjectServices.updateProjectById(projectId,updateValue)
-      .then(res=>{
-         history.push('/projects')
-         toast.success('Cập nhật thành công')
-      })
-      .catch(err=>toast.error(err.response.data.message))  
-}
-
-export const updateProjectThumb = (projectId,newThumb,history)=>{
-   ProjectServices.updateProjectThumb(projectId,newThumb)
-      .then(res=>{
-         history.push('/projects')
-         toast.success('Cập nhật thành công')
-      })
-      .catch(err => toast(err.response.data.message))
+export const updateProjectById = (projectId, updateValue, history) => {
+   return dispatch => {
+      dispatch({ type: LOADING_PROJECTS })
+      ProjectServices.updateProjectById(projectId, updateValue)
+         .then(res => {
+            dispatch({ type: UPDATE_PROJECT })
+            toast.success(res.data.message)
+            history.push('/projects')
+         })
+         .catch(err => toast.error(err.response.data.message))
    }
+
+}

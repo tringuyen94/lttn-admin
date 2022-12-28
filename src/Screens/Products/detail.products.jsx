@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import {
   fetchProductById,
   updateProductById,
-  updateProductImage
 } from "../../redux/async-actions/product.action"
 import {
   TextField,
@@ -13,23 +12,21 @@ import {
   FormGroup,
   Grid,
   FormHelperText,
+  CircularProgress,
 } from "@material-ui/core"
 import { fetchCategories } from "../../redux/async-actions/category.action"
 import { fetchBrands } from "../../redux/async-actions/brand.action"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
-import { domain } from "../../services/baseURL.services"
 import ImageUploadComponent from "../../components/ImageUpload"
 import RichTextEditor from "../../components/RichTextEditor"
-import { useRef } from "react"
 
 const DetailProduct = () => {
-
-
   const dispatch = useDispatch()
   const { productId } = useParams()
   const history = useHistory()
   const productById = useSelector(state => state.product.productById)
+  const loadingProd = useSelector(state => state.product.loadingProd)
   const brands = useSelector(state => state.brand.brands)
   const categories = useSelector(state => state.category.categories)
   const contentRef = useRef(null)
@@ -41,19 +38,10 @@ const DetailProduct = () => {
   }, [dispatch, productId])
 
 
-  useEffect(() => {
-    let result = []
-    if (productById?.productImages) {
-      productById.productImages.map(item => result.push({ 'data_url': domain + '/' + item }))
-    }
-    setImages(result)
-  }, [productById])
-
 
 
   const [productValue, setProductValue] = useState()
-  const [images, setImages] = useState()
-  const [disabledSubmitImage, setDisabledSubmitImage] = useState(true)
+  const [images, setImages] = useState([])
   const [isValid, setIsValid] = useState(false)
 
 
@@ -70,28 +58,30 @@ const DetailProduct = () => {
   }
 
   const handleFile = (imageList) => {
+    if (imageList.length < 4) return setIsValid(false)
     setImages(imageList)
-    setDisabledSubmitImage(false)
+    setIsValid(true)
   }
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!isValid) return
-    updateProductById({ ...productValue, detail: contentRef.current }, productId, history)
-  }
-  const handleImageSubmit = (e) => {
-    e.preventDefault()
-    if(disabledSubmitImage) return 
     let _formData = new FormData()
-    for (let i = 0; i < images.length; i++) {
-      _formData.append('productImages', images[i].file)
-    }
-    updateProductImage(_formData, productId, history)
+    _formData.append('name', productValue?.name)
+    _formData.append('brand', productValue?.brand)
+    _formData.append('category', productValue?.category)
+    _formData.append('capacity', productValue?.capacity)
+    _formData.append('isNewProduct', productValue?.isNewProduct)
+    _formData.append('detail', contentRef.current)
+    images.forEach(image => _formData.append('productImages', image.data_url))
+    updateProductById(_formData, productId)
+    history.push('/products')
   }
+
   return (
     productById && (
       <Grid container justify="center">
-        <Grid item md={6}>
-          <FormGroup>
+        <FormGroup>
+          <Grid item md={6}>
             <FormControl style={{ width: "400px", margin: "10px 20px" }} >
               <TextField
                 label="Tên sản phẩm"
@@ -149,15 +139,6 @@ const DetailProduct = () => {
               <RichTextEditor getContentFromRTE={getContentFromRTE} defaultValue={productById.detail} />
             </FormControl>
             <FormControl style={{ width: "200px", margin: "10px 20px" }}>
-              <TextField
-                name="capacity"
-                label="Công suất"
-                defaultValue={productById.capacity}
-                variant="filled"
-                onChange={handleChange}
-              />
-            </FormControl>
-            <FormControl style={{ width: "200px", margin: "10px 20px" }}>
               <InputLabel htmlFor="isNewProduct">Tình trạng</InputLabel>
               <NativeSelect
                 inputProps={{
@@ -172,25 +153,38 @@ const DetailProduct = () => {
               </NativeSelect>
 
             </FormControl>
-            <FormHelperText> ** Thay đổi nội dung muốn thay đổi xong nhấn Lưu</FormHelperText>
-            <FormControl style={{ padding: "0 40px" }} fullWidth >
-              <Button disabled={!isValid} variant="contained" color="primary" onClick={handleSubmit}>
-                Lưu
-              </Button>
+            <FormControl style={{ width: "200px", margin: "10px 20px" }}>
+              <TextField
+                name="capacity"
+                label="Công suất"
+                defaultValue={productById.capacity}
+                variant="filled"
+                onChange={handleChange}
+              />
             </FormControl>
-          </FormGroup >
-        </Grid>
-        <Grid item md={6}>
-          <FormControl >
-            <FormHelperText> *** Muốn cập nhật hình mới phải xoá tất cả ảnh cũ sau đó chọn lại ảnh mới </FormHelperText>
-            <ImageUploadComponent maxNumber={4} isMultiple={true} handleFile={handleFile} imageList={images} />
-          </FormControl>
-          <FormControl style={{ padding: "0 40px" }} fullWidth >
-            <Button disabled={disabledSubmitImage} variant="contained" color="primary" onClick={handleImageSubmit}>
-              Lưu ảnh mới
+            <FormHelperText> ** Thay đổi nội dung muốn thay đổi xong nhấn Lưu</FormHelperText>
+          </Grid>
+          <Grid item md={6}>
+            <Grid container>
+              {productById.productImages.map((item, index) => (
+                <Grid key={index} item >
+                  <img width="100px" height="120px" src={item.url} alt={productById.name} />
+                </Grid>
+              ))}
+            </Grid>
+            <FormControl >
+              <ImageUploadComponent maxNumber={4} isMultiple={true} handleFile={handleFile} imageList={images} />
+              <FormHelperText> *** Chọn ảnh mới để cập nhật </FormHelperText>
+            </FormControl>
+          </Grid>
+          <FormControl style={{ padding: "0 40px" }} >
+            <Button
+              disabled={!isValid} variant="contained" color="primary" onClick={handleSubmit}>
+              {loadingProd ? <CircularProgress /> : "Lưu"}
             </Button>
-          </FormControl>
-        </Grid>
+          </FormControl >
+        </FormGroup >
+
       </Grid >
     )
   )

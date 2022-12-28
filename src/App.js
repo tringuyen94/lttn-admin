@@ -3,14 +3,13 @@ import "react-toastify/dist/ReactToastify.css"
 import "./App.css"
 import Main from "./Screens/Main"
 import Navbar from "./Layouts/navbar"
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, useLocation } from "react-router-dom"
 import Authentication from "./Screens/Authentication"
 import Categories from "./Screens/Categories"
 import Footer from "./Layouts/footer"
 import Brands from "./Screens/Brands"
 import { ToastContainer, toast } from "react-toastify"
 import DetailProduct from "./Screens/Products/detail.products"
-import { useLocation } from 'react-router-dom'
 import AuthProvider from "./context/AuthProvider"
 import SideList from "./components/sidelist"
 import { Grid } from "@material-ui/core"
@@ -20,6 +19,7 @@ import NotFoundPage from "./Screens/NotFoundPage"
 import Project from "./Screens/Project/project"
 import AddProject from "./Screens/Project/add.project"
 import DetailProject from "./Screens/Project/detail.project"
+import Video from "./Screens/Video/Video"
 
 function App() {
   const location = useLocation()
@@ -41,13 +41,14 @@ function App() {
           <Grid item md={10}>
             <Switch>
               <Route path="/projects" exact component={Project} />
-              <Route path="/projects/update-project/:projectId" exact component={DetailProject} /> 
+              <Route path="/projects/update-project/:projectId" exact component={DetailProject} />
               <Route path="/projects/add-project" exact component={AddProject} />
               <Route path="/products" exact component={Products} />
               <Route path="/products/add-product" exact component={AddProduct} />
               <Route path="/products/update-product/:productId" exact component={DetailProduct} />
               <Route path="/categories" exact component={Categories} />
               <Route path="/brands" exact component={Brands} />
+              <Route path="/video" exact component={Video} />
               <Route path="/login" exact component={Authentication} />
               <Route path="/admin" exact component={Main} />
               <Route path="/" exact component={Main} />

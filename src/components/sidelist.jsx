@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react"
 import {
   List,
 } from "@material-ui/core"
-import { HomeRounded, ComputerRounded, AppsRounded, BlurOn, Add,PostAdd } from "@material-ui/icons"
+import {
+  HomeRounded, ComputerRounded, AppsRounded,
+  BlurOn, Add, PostAdd, VideoCall
+} from "@material-ui/icons"
 import './sidelist.css'
 import { useHistory, useLocation } from "react-router"
 import SideListItem from "./sidelistitem";
@@ -16,6 +19,7 @@ const data = [
   { route: "/projects/add-project", tabIndex: 4, icon: <PostAdd />, label: "Thêm dự án" },
   { route: "/categories", tabIndex: 5, icon: <AppsRounded />, label: "Loại sản phẩm" },
   { route: "/brands", tabIndex: 6, icon: <BlurOn />, label: "Nhãn hàng" },
+  { route: "/video", tabIndex: 7, icon: <VideoCall />, label: "Video" },
 
 ]
 const SideList = () => {
@@ -49,12 +53,15 @@ const SideList = () => {
       case '/brands':
         setTabSelected(6)
         break;
+      case '/video':
+        setTabSelected(7)
+        break;
       default:
         break;
     }
   }, [location.pathname])
 
-  
+
   return (
     <List component="nav" className="sidelist">
       {data.map((item, index) => <SideListItem

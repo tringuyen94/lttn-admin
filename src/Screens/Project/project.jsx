@@ -1,10 +1,7 @@
 import { Grid, InputAdornment, FormControl, InputLabel, OutlinedInput } from '@material-ui/core'
 import { Search } from '@material-ui/icons'
-import React, { Fragment, useState } from 'react'
-import { useRef } from 'react'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+import React, { Fragment, useState, useRef, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { deleteProjectById, fetchProjects, filterProject } from '../../redux/async-actions/project.action'
 import ProjectItem from './item.project'
 import './project.css'
@@ -22,7 +19,7 @@ const Project = () => {
          clearTimeout(typingTimeOutRef.current)
       }
       typingTimeOutRef.current = setTimeout(() => {
-         if(value === '') return dispatch(fetchProjects())
+         if (value === '') return dispatch(fetchProjects())
          dispatch(filterProject(value))
       }, 500)
    }

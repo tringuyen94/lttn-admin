@@ -10,7 +10,7 @@ class BrandServices {
     return restConnector({
       url: `api/brands/create-brand`,
       method: "post",
-      data: { 'nameBrand': value },
+      data: { nameBrand: value },
     })
   }
   updateBrandById(value, brandId) {

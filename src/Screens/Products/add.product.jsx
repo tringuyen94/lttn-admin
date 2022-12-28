@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { createProduct } from "../../redux/async-actions/product.action"
 import { fetchBrands } from "../../redux/async-actions/brand.action"
 import { fetchCategories } from "../../redux/async-actions/category.action"
-import { Button, FormControl, FormHelperText, Grid, Select, TextField } from "@material-ui/core"
+import { Button, CircularProgress, FormControl, FormHelperText, Grid, Select, TextField } from "@material-ui/core"
 import './product.css'
 import { useHistory } from "react-router-dom"
 import RichTextEditor from "../../components/RichTextEditor"
@@ -17,13 +17,12 @@ const AddProduct = () => {
   const history = useHistory()
   const brands = useSelector(state => state.brand.brands)
   const categories = useSelector(state => state.category.categories)
+  const loadingProd = useSelector(state => state.product.loading)
+
   const contentRef = useRef(null)
   const [productValue, setProductValue] = useState({})
   const [images, setImages] = useState([]);
   const [isValid, setIsValid] = useState(false)
-
-
-
 
 
   useEffect(() => {
@@ -47,23 +46,27 @@ const AddProduct = () => {
     setImages(imageList);
     validateValue()
   }
+
+  /// Submit Form Data
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (isValid) {
-      let formData = new FormData()
-      formData.append('name', productValue.name)
-      formData.append('brand', productValue.brand)
-      formData.append('category', productValue.category)
-      formData.append('detail', contentRef.current)
-      formData.append('capacity', productValue.capacity)
-      formData.append('isNewProduct', productValue.isNewProduct)
-      for (let i = 0; i < images.length; i++) {
-        formData.append('productImages', images[i].file)
-      }
-      createProduct(formData, history)
-    }
-    else return
+    if (!isValid) return
+    let formData = new FormData()
+    /**
+     * Append Data from input to formData
+     */
+    formData.append('name', productValue.name)
+    formData.append('brand', productValue.brand)
+    formData.append('category', productValue.category)
+    formData.append('detail', contentRef.current)
+    formData.append('capacity', productValue.capacity)
+    formData.append('isNewProduct', productValue.isNewProduct)
+    images.forEach(image => formData.append('productImages', image.data_url))
+    // Call API
+    dispatch(createProduct(formData, history))
   }
+
+  //Validate Input
   const validateValue = () => {
     if (productValue.name === '' ||
       productValue.brand === '' ||
@@ -72,8 +75,10 @@ const AddProduct = () => {
       productValue.capacity === '' ||
       productValue.isNewProduct === '' ||
       images.length !== 4
-    ) return setIsValid(false)
-    return setIsValid(true)
+    ) {
+      setIsValid(false)
+    }
+    else setIsValid(true)
   }
 
   return (
@@ -150,15 +155,18 @@ const AddProduct = () => {
       <Grid item md={8} style={{ padding: "1.3rem 1.8rem" }}>
         <FormControl fullWidth>
           <FormHelperText> Chọn 4 ảnh sản phẩm  </FormHelperText>
-          <ImageUploadComponent maxNumber={4} isMultiple={true} handleFile={handleFile} />
+          <ImageUploadComponent
+            maxNumber={4}
+            isMultiple={true}
+            handleFile={handleFile} />
         </FormControl>
         <FormControl fullWidth>
           <FormHelperText>Nhập chi tiết sản phẩm</FormHelperText>
           <RichTextEditor getContentFromRTE={getContentFromRTE} />
         </FormControl>
         <FormControl fullWidth>
-          <Button disabled={!isValid} variant="contained" color="primary" type="submit" onClick={handleSubmit} align="center">
-            Thêm sản phẩm
+          <Button disabled={!isValid || loadingProd} variant="contained" color="primary" type="submit" onClick={handleSubmit} align="center">
+            {loadingProd ? <CircularProgress /> : "Thêm sản phẩm"}
           </Button>
         </FormControl>
       </Grid>

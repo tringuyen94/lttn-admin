@@ -32,12 +32,5 @@ class ProductServices {
       data: productData,
     })
   }
-  updateImageProduct(productData, productId) {
-    return restConnector({
-      url: `api/products/update-image/${productId}`,
-      method: "PUT",
-      data: productData,
-    })
-  }
 }
 export default new ProductServices()

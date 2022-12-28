@@ -26,6 +26,7 @@ const Brands = () => {
           color="primary"
           variant="outlined"
           onClick={handleAddBrand}
+          disabled={!nameBrand}
         >
           Thêm
         </Button>

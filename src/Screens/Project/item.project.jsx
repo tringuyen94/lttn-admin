@@ -12,24 +12,31 @@ const ProjectItem = ({ project, handleDeleteProject }) => {
    const history = useHistory()
    const { pathname } = useLocation()
    return (
-      <Grid item md={3} sm={6} xs={12} className='project__item'>
+      <Grid item md={4} sm={6} xs={12} className='project__item'>
          <Card>
             <CardMedia
                component="img"
-               height="140"
-               image={domain + "/" + project.projectThumb}
+               height="140px"
+               image={project.projectThumb[0].url}
                alt="project"
             />
             <CardContent>
-               <Typography gutterBottom variant="h5" component="div">
+               <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div">
                   {project.title.slice(0, 40) + "..."}
                </Typography>
             </CardContent>
             <CardActions >
-               <IconButton color="primary" onClick={() => history.push(`${pathname}/update-project/${project._id}`)}>
+               <IconButton
+                  color="primary"
+                  onClick={() => history.push(`${pathname}/update-project/${project._id}`)}>
                   <Edit />
                </IconButton>
-               <IconButton color="secondary" onClick={() => handleDeleteProject(project._id)}>
+               <IconButton
+                  color="secondary"
+                  onClick={() => handleDeleteProject(project._id)}>
                   <Delete />
                </IconButton>
             </CardActions>

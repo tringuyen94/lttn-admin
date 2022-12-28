@@ -2,17 +2,11 @@ import React, { useState } from 'react'
 import ImageUploading from 'react-images-uploading'
 import { FormHelperText, IconButton, Grid } from '@material-ui/core'
 import { PhotoCamera, Edit, Delete } from '@material-ui/icons'
-import { useEffect } from 'react'
 
 
 const ImageUploadComponent = ({ maxNumber, isMultiple, handleFile, imageList }) => {
-   const [images, setImages] = useState([])
+   const [images, setImages] = useState()
 
-   useEffect(() => {
-      if (imageList) {
-         setImages(imageList)
-      }
-   }, [imageList])
    return (
       <ImageUploading
          multiple={isMultiple}
@@ -44,15 +38,15 @@ const ImageUploadComponent = ({ maxNumber, isMultiple, handleFile, imageList }) 
                      onClick={onImageUpload}
                      {...dragProps}
                   >
-                     <PhotoCamera style={{ fontSize: "5rem" }} />
+                     <PhotoCamera style={{ fontSize: "3rem" }} />
                   </IconButton>
                </div>
                &nbsp;
                <Grid container>
                   {imageList.map((image, index) => (
-                     <Grid key={index} item md={6}>
+                     <Grid key={index} item md={2} >
                         <div className="image-item">
-                           <img src={image['data_url']} alt="selected" />
+                           <img src={image.data_url} alt="selected" width="100px" height="120px" />
                            <div className="image-item__btn-wrapper">
                               <IconButton color="primary" onClick={() => onImageUpdate(index)}><Edit /></IconButton>
                               <IconButton color="secondary" onClick={() => onImageRemove(index)}><Delete /></IconButton>
@@ -62,8 +56,9 @@ const ImageUploadComponent = ({ maxNumber, isMultiple, handleFile, imageList }) 
                   ))}
                </Grid>
             </div>
-         )}
-      </ImageUploading>
+         )
+         }
+      </ImageUploading >
    )
 }
 

@@ -35,13 +35,6 @@ class ProjectServices {
          method: "PUT"
       })
    }
-   updateProjectThumb(projectId, newThumb) {
-      return restConnector({
-         url: `api/projects/update-project-thumb/${projectId}`,
-         data: newThumb,
-         method: "PUT"
-      })
-   }
 }
 
 

@@ -1,20 +1,25 @@
 import React, { useState, useRef } from 'react'
-import { Container, FormControl, FormGroup, FormHelperText, TextField, Button } from '@material-ui/core'
+import { Container, FormControl, FormGroup, FormHelperText, TextField, Button, CircularProgress } from '@material-ui/core'
 import './project.css'
 import { useHistory } from 'react-router-dom'
 import { createProject } from '../../redux/async-actions/project.action'
 import RichTextEditor from '../../components/RichTextEditor';
 import ImageUploadComponent from '../../components/ImageUpload'
+import { useDispatch, useSelector } from 'react-redux'
 
 const AddProject = () => {
    const history = useHistory()
+   const dispatch = useDispatch()
    const contentRef = useRef(null)
-   const [projectValue, setProjectValue] = useState({ title: '', images: [] })
+   const loadingProj = useSelector(state => state.project.loading)
+   const [images, setImages] = useState([])
+   const [title, setTitle] = useState('')
    const [isValid, setIsValid] = useState(false)
 
    // Xử lý image vào state
    const handleFile = (imageList) => {
-      setProjectValue({ ...projectValue, images: imageList })
+      setImages(imageList)
+      validateProjectForm()
    }
    // Set value từ Rich Text Editor
    const getContentFromRTE = (value) => {
@@ -24,22 +29,20 @@ const AddProject = () => {
 
    // Check validate form 
    const validateProjectForm = () => {
-      if (!projectValue.title ||
-         projectValue.images.length === 0 ||
+      if (!title ||
+         images.length !== 1 ||
          contentRef.current === ''
       ) setIsValid(false)
       else setIsValid(true)
    }
    //Submit Form
    const handleSubmitProject = () => {
-      if (isValid) {
-         let _formData = new FormData()
-         _formData.append('title', projectValue.title)
-         _formData.append('content', contentRef.current)
-         _formData.append('projectThumb',  projectValue.images[0].file)
-         createProject(_formData, history)
-      }
-      return
+      if (!isValid) return
+      let _formData = new FormData()
+      _formData.append('title', title)
+      _formData.append('content', contentRef.current)
+      images.forEach(image => _formData.append('projectThumb', image.data_url))
+      dispatch(createProject(_formData, history))
    }
 
 
@@ -47,10 +50,7 @@ const AddProject = () => {
       <Container style={{ marginTop: "3rem" }} maxWidth="md">
          <FormGroup style={{ border: "1px dotted #535c68", padding: "1rem 1.5rem" }}>
             <FormControl name='title' onChange={e => {
-               setProjectValue({
-                  ...projectValue,
-                  title: e.target.value
-               })
+               setTitle(e.target.value)
                validateProjectForm()
             }}>
                <FormHelperText>Nhập tiêu đề bài viết</FormHelperText>
@@ -65,9 +65,10 @@ const AddProject = () => {
                <RichTextEditor getContentFromRTE={getContentFromRTE} />
             </FormControl>
             <FormControl onClick={handleSubmitProject}>
-               <Button disabled={!isValid} style={{ marginTop: "2rem" }} color="primary" variant="contained" > Lưu bài viết</Button>
+               <Button disabled={!isValid || loadingProj} style={{ marginTop: "2rem" }} color="primary" variant="contained" >
+                  {loadingProj ? <CircularProgress /> : 'Lưu bài viết'}</Button>
             </FormControl>
-         </FormGroup>
+         </FormGroup>1
       </Container>
    )
 

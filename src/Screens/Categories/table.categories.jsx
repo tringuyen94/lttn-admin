@@ -11,10 +11,10 @@ import { Save, Edit } from "@material-ui/icons"
 const CategoryTable = () => {
   const dispatch = useDispatch()
   const categories = useSelector(state => state.category.categories)
- 
+
   const [isUpdate, setIsUpdate] = useState(false)
   const [nameCategory, setNameCategory] = useState()
-  const history= useHistory()
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(fetchCategories())

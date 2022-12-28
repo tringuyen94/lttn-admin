@@ -1,51 +1,37 @@
-import React from "react"
-import {
-  Grid, Card,
-  CardActionArea,
-  Typography, CardContent
-} from '@material-ui/core'
+import React, { useEffect } from "react"
+import { Grid, Typography, } from '@material-ui/core'
+import CountUp from 'react-countup';
+import { useDispatch, useSelector } from "react-redux"
+import { fetchProducts } from "../../redux/async-actions/product.action"
+import { fetchProjects } from "../../redux/async-actions/project.action";
 import './main.css'
-import { useHistory } from "react-router"
+
 
 const Main = () => {
-  const history = useHistory()
+  const dispatch = useDispatch()
+  const products = useSelector(state => state.product.products)
+  const projects = useSelector(state => state.project.projects)
+  useEffect(() => {
+    dispatch(fetchProducts())
+    dispatch(fetchProjects())
+  }, [dispatch])
   return (
     <Grid container justify='space-between' className="main">
-      <Grid item md={4}>
-        <Card className='main__card'>
-          <CardActionArea onClick={() =>history.push('/products')}>
-            <img alt="product" src={require('../../img/product.jpg')} />
-            <CardContent className='card__content'>
-              <Typography gutterBottom variant="h5" align='center' component="h2">
-                Sản phẩm
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+      <Grid item md={6} >
+        <Typography variant="h6">Tổng sản phẩm</Typography>
+        {products ?
+          <Typography variant="h3">
+            <CountUp end={products.length} />
+          </Typography>
+          : null}
       </Grid>
-      <Grid item md={4}>
-        <Card className='main__card'>
-          <CardActionArea onClick={() =>history.push('/categories')} >
-            <img alt="category" src={require('../../img/category.png')} />
-            <CardContent className='card__content'>
-              <Typography gutterBottom variant="h5" align='center' component="h2">
-                Loại sản phẩm
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </Grid>
-      <Grid item md={4}>
-        <Card className='main__card'>
-          <CardActionArea onClick={() =>history.push('/brands')}>
-            <img alt="brand" src={require('../../img/brand.jpg')} />
-            <CardContent className='card__content'>
-              <Typography gutterBottom variant="h5" align='center' component="h2">
-                Nhãn hàng
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+      <Grid item md={6}>
+        <Typography variant="h6">Tổng số dự án</Typography>
+        {projects ?
+          <Typography variant="h3">
+            <CountUp end={projects.length} />
+          </Typography>
+          : null}
       </Grid>
     </Grid>
   )

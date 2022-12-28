@@ -1,17 +1,19 @@
 import React, { useEffect } from "react"
 import MUIDataTable from "mui-datatables"
 import { Button } from "@material-ui/core"
+import { Delete } from "@material-ui/icons"
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { fetchProducts } from "../../redux/async-actions/product.action"
 import { deleteProductById } from "../../redux/async-actions/product.action"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { domain } from "../../services/baseURL.services"
 
 
 const Products = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const products = useSelector(state => state.product.products)
+  const loadingProd = useSelector(state => state.product.loading)
   const options = {
     selectableRows: "none",
     filterType: "dropdown",
@@ -51,7 +53,7 @@ const Products = () => {
         customBodyRender: (name) => {
           return (
             <img
-              src={domain + '/' + name[0]}
+              src={name[0]?.url}
               alt="product"
               width="100px"
               height="100px"
@@ -118,14 +120,15 @@ const Products = () => {
                 Cập nhật
               </Button>
               <Button
-                style={{ marginLeft: "10px" }}
+                size="small"
                 variant="contained"
+                style={{ marginLeft: "10px" }}
                 color="secondary"
                 onClick={() => {
                   dispatch(deleteProductById(`${tableMeta.rowData[0]}`))
                 }}
               >
-                Xóa
+                {loadingProd ? <CircularProgress /> : "Xoá"}
               </Button>
             </>
           )
