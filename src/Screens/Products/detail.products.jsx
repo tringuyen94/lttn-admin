@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react"
+import React, { useRef, useEffect, useState, Fragment } from "react"
 import {
   fetchProductById,
   updateProductById,
@@ -26,7 +26,7 @@ const DetailProduct = () => {
   const { productId } = useParams()
   const history = useHistory()
   const productById = useSelector(state => state.product.productById)
-  const loadingProd = useSelector(state => state.product.loadingProd)
+  const loadingProd = useSelector(state => state.product.loading)
   const brands = useSelector(state => state.brand.brands)
   const categories = useSelector(state => state.category.categories)
   const contentRef = useRef(null)
@@ -73,8 +73,8 @@ const DetailProduct = () => {
     _formData.append('isNewProduct', productValue?.isNewProduct)
     _formData.append('detail', contentRef.current)
     images.forEach(image => _formData.append('productImages', image.data_url))
-    updateProductById(_formData, productId)
-    history.push('/products')
+    dispatch(updateProductById(_formData, productId, history))
+
   }
 
   return (
@@ -179,7 +179,7 @@ const DetailProduct = () => {
           </Grid>
           <FormControl style={{ padding: "0 40px" }} >
             <Button
-              disabled={!isValid} variant="contained" color="primary" onClick={handleSubmit}>
+              disabled={!isValid || loadingProd} variant="contained" color="primary" onClick={handleSubmit}>
               {loadingProd ? <CircularProgress /> : "Lưu"}
             </Button>
           </FormControl >

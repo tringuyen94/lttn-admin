@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core'
 import { Delete, Edit } from '@material-ui/icons'
 import { useHistory, useLocation } from 'react-router-dom'
-import { domain } from '../../services/baseURL.services'
 
 const ProjectItem = ({ project, handleDeleteProject }) => {
    const history = useHistory()

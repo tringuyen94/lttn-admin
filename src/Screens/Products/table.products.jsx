@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
 import MUIDataTable from "mui-datatables"
 import { Button } from "@material-ui/core"
-import { Delete } from "@material-ui/icons"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { fetchProducts } from "../../redux/async-actions/product.action"
 import { deleteProductById } from "../../redux/async-actions/product.action"

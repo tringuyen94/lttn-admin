@@ -51,10 +51,17 @@ export const deleteProductById = (productId) => {
       .catch((err) => toast.error(err.response.data.message))
   }
 }
-export const updateProductById = (productData, productId) => {
-  ProductServices.updateProductById(productData, productId)
-    .then((res) => toast.info(res.data.message))
-    .catch((err) => toast.error(err.response.data.message))
+export const updateProductById = (productData, productId, history) => {
+  return dispatch => {
+    dispatch({ type: LOADING_PRODUCTS })
+    ProductServices.updateProductById(productData, productId)
+      .then((res) => {
+        dispatch({ type: UPDATE_PRODUCT_BY_ID })
+        history.push('/products')
+        toast.info(res.data.message)
+      })
+      .catch((err) => toast.error(err.response.data.message))
+  }
 
 }
 
