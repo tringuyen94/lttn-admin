@@ -4,6 +4,7 @@ import {
   FETCH_PRODUCT_BY_ID,
   LOADING_PRODUCTS,
   UPDATE_PRODUCT_BY_ID,
+  CREATE_PRODUCT
 } from "./actionType"
 import ProductServices from "../../services/product.services"
 import { toast } from "react-toastify"
@@ -13,6 +14,7 @@ export const createProduct = (value, history) => {
     dispatch({ type: LOADING_PRODUCTS })
     ProductServices.createProduct(value)
       .then((res) => {
+        dispatch({ type: CREATE_PRODUCT })
         history.push('/products')
         toast.success(res.data.message)
       })

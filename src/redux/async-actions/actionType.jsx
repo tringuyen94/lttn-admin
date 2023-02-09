@@ -4,6 +4,7 @@ export const LOGOUT = "LOGOUT"
 //============================PRODUCT=========================
 export const LOADING_PRODUCTS = "LOADING_PRODUCTS"
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS"
+export const CREATE_PRODUCT = "CREATE_PRODUCT"
 export const FETCH_PRODUCT_BY_ID = "FETCH_PRODUCT_BY_ID"
 export const UPDATE_PRODUCT_BY_ID = "UPDATE_PRODUCT_BY_ID"
 export const DELETE_PRODUCT_BY_ID = "DELETE_PRODUCT_BY_ID"

@@ -3,7 +3,8 @@ import {
   DELETE_PRODUCT_BY_ID,
   FETCH_PRODUCT_BY_ID,
   LOADING_PRODUCTS,
-  UPDATE_PRODUCT_BY_ID
+  UPDATE_PRODUCT_BY_ID,
+  CREATE_PRODUCT
 } from "../async-actions/actionType"
 
 let initialState = {
@@ -20,6 +21,8 @@ const productReducer = (state = initialState, action) => {
       return { ...state, loading: false }
     case FETCH_PRODUCT_BY_ID:
       state.productById = action.payload
+      return { ...state, loading: false }
+    case CREATE_PRODUCT:
       return { ...state, loading: false }
     case UPDATE_PRODUCT_BY_ID:
       return { ...state, loading: false }
