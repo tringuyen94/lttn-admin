@@ -62,7 +62,9 @@ export const updateProductById = (productData, productId, history) => {
         history.push('/products')
         toast.info(res.data.message)
       })
-      .catch((err) => toast.error(err.response.data.message))
+      .catch((err) => {
+        toast.error(err.response.data.message)
+      })
   }
 
 }
